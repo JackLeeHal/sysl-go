@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/rickb777/date"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
-
 	"github.com/stretchr/testify/mock"
 )
 
@@ -17,6 +17,10 @@ func NewString(s string) *string {
 
 func NewBool(b bool) *bool {
 	return &b
+}
+
+func NewDate(d date.Date) *date.Date {
+	return &d
 }
 
 type MockRoundTripper struct {
