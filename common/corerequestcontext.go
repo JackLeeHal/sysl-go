@@ -141,6 +141,6 @@ type tempRoundtripper struct {
 }
 
 func (t *tempRoundtripper) RoundTrip(r *http.Request) (*http.Response, error) {
-	logentry := GetLogEntryFromContext(r.Context()).WithField("Downsteam", t.name)
+	logentry := GetLogEntryFromContext(r.Context()).WithField("Downstream", t.name)
 	return internal.NewLoggingRoundTripper(logentry, t.base).RoundTrip(r)
 }
