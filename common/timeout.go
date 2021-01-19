@@ -104,8 +104,8 @@ func (h *timeoutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(tw.code)
 		_, _ = w.Write(tw.wbuf.Bytes())
-	case <-panicChan:
-		timeoutFunc()
+	case e := <-panicChan:
+		panic(e)
 	case <-ctx.Done():
 		timeoutFunc()
 	}

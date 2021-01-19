@@ -86,30 +86,6 @@ func TestTimeoutHandler_CallbackCalledIfTimeout(t *testing.T) {
 	defer resp.Body.Close()
 }
 
-func TestTimeoutHandler_NoPanicRethrow(t *testing.T) {
-	req := require.New(t)
-	tester := defaultTestHandler()
-
-	handler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		panic("HElp")
-	})
-
-	timeoutmware := Timeout(contextWithLogger(), time.Millisecond, tester)
-	ts := httptest.NewServer(timeoutmware(handler))
-	defer ts.Close()
-
-	req.NotPanics(func() {
-		resp, err := http.Get(ts.URL)
-		req.NoError(err)
-		body, err := ioutil.ReadAll(resp.Body)
-		req.NoError(err)
-		req.Equal("hello", string(body))
-		req.Equal(500, resp.StatusCode)
-		req.True(tester.called)
-		defer resp.Body.Close()
-	})
-}
-
 func TestTimeoutHandler_ContextTimoutMoreThanWriteTimeout(t *testing.T) {
 	req := require.New(t)
 	tester := defaultTestHandler()
